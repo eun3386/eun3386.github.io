@@ -1,14 +1,12 @@
 import "./App.css";
 import { Header } from "./page/header";
 import { LouisPoulsen } from "./page/case/louisPoulsen";
-import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Main } from "./page/main";
 import { Lab } from "./page/lab";
 import { Image } from "./page/image";
 
 function App() {
-  const { params } = useParams();
-  console.log("params", params);
   return (
     <div className="App">
       <div id="__nuxt">

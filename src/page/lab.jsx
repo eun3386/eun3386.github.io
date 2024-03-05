@@ -1,19 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useInView, useDomEvent, motion } from "framer-motion";
-import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
+import React, { useRef, useState } from "react";
+import { useInView, motion, AnimatePresence } from "framer-motion";
+import { ScrollMenu } from "react-horizontal-scrolling-menu";
 import usePreventBodyScroll from "../usePreventBodyScroll";
 import { Link } from "react-router-dom";
 
 export const Lab = () => {
-  const refBg = useRef();
   const refText = useRef();
-  const letterRef = useRef();
-  const offsetY = useRef();
-  const refImg = useRef();
-  const [hoverTranslate, setHoverTranslate] = useState("none");
-  //   const [offsetY, setOffsetY] = useState();
+  const [detailImage, setDetailImage] = useState({ visible: false, idx: null });
   const isInViewText = useInView(refText, { once: true });
-  const isInViewBg = useInView(refBg, { once: true });
   const { disableScroll, enableScroll } = usePreventBodyScroll();
   function onWheel(apiObj, ev) {
     const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
@@ -32,16 +26,10 @@ export const Lab = () => {
 
   const text = "The Lab";
 
-  //   const StyledH1 = styled("h1")`
-  //     transition: all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 1.5s;
-  //     transform: ${isInViewText ? "none" : `translateY(${offsetY}px)`};
-  //   `;
-
   const whiteBgVariant = {
     visible: {
       opacity: 1,
       visibility: "visible",
-      //   transition: { delayChildren: 0.5 },
     },
     hidden: {
       opacity: 0,
@@ -105,72 +93,48 @@ export const Lab = () => {
 
   const imgData = [
     {
-      src: "https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200",
+      src: "https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&",
     },
     {
-      src: "https://www.datocms-assets.com/92457/1680017396-the_retreat_lo.jpg?fit=max&h=300&w=200",
+      src: "https://www.datocms-assets.com/92457/1680017396-the_retreat_lo.jpg?fit=max&",
     },
     {
-      src: "https://www.datocms-assets.com/92457/1680431509-remoteworking_daytime_v001-min.jpg?fit=max&h=300&w=200",
+      src: "https://www.datocms-assets.com/92457/1680431509-remoteworking_daytime_v001-min.jpg?fit=max&",
     },
     {
-      src: "https://www.datocms-assets.com/92457/1680431515-remoteworking_nighttime_v001-min.jpg?fit=max&h=300&w=200",
+      src: "https://www.datocms-assets.com/92457/1680431515-remoteworking_nighttime_v001-min.jpg?fit=max&",
     },
     {
-      src: "https://www.datocms-assets.com/92457/1680694505-220618_perfume-bottle_001.jpg?fit=max&h=300&w=200",
+      src: "https://www.datocms-assets.com/92457/1680694505-220618_perfume-bottle_001.jpg?fit=max&",
     },
     {
-      src: "https://www.datocms-assets.com/92457/1680694464-r_mason_004b.jpg?fit=max&h=300&w=200",
+      src: "https://www.datocms-assets.com/92457/1680694464-r_mason_004b.jpg?fit=max&",
     },
     {
-      src: "https://www.datocms-assets.com/92457/1680694524-21-15_aesop_002_b-w.jpg?fit=max&h=300&w=200",
+      src: "https://www.datocms-assets.com/92457/1680694524-21-15_aesop_002_b-w.jpg?fit=max&",
     },
     {
-      src: "https://www.datocms-assets.com/92457/1680696278-rossm_final.jpg?fit=max&h=300&w=200",
+      src: "https://www.datocms-assets.com/92457/1680696278-rossm_final.jpg?fit=max&",
     },
     {
-      src: "https://www.datocms-assets.com/92457/1680696547-interior_07.jpg?fit=max&h=300&w=200",
+      src: "https://www.datocms-assets.com/92457/1680696547-interior_07.jpg?fit=max&",
     },
     {
-      src: "https://www.datocms-assets.com/92457/1695073885-x_ray_tutorial_v001_front_x-ray_03_edit.jpg?fit=max&h=300&w=200",
+      src: "https://www.datocms-assets.com/92457/1695073885-x_ray_tutorial_v001_front_x-ray_03_edit.jpg?fit=max&",
     },
     {
-      src: "https://www.datocms-assets.com/92457/1695073869-x_ray_layout_edit.jpg?fit=max&h=300&w=200",
+      src: "https://www.datocms-assets.com/92457/1695073869-x_ray_layout_edit.jpg?fit=max&",
     },
     {
-      src: "https://www.datocms-assets.com/92457/1695073885-x_ray_tutorial_v001_front_x-ray_03_edit.jpg?fit=max&h=300&w=200",
+      src: "https://www.datocms-assets.com/92457/1695073885-x_ray_tutorial_v001_front_x-ray_03_edit.jpg?fit=max&",
     },
     {
-      src: "https://www.datocms-assets.com/92457/1695073917-x_ray_tutorial_v001_wing_mirror_edit.jpg?fit=max&h=300&w=200",
+      src: "https://www.datocms-assets.com/92457/1695073917-x_ray_tutorial_v001_wing_mirror_edit.jpg?fit=max&",
     },
     {
-      src: "https://www.datocms-assets.com/92457/1695157865-x_ray_tutorial_v2.jpg?fit=max&h=300&w=200",
+      src: "https://www.datocms-assets.com/92457/1695157865-x_ray_tutorial_v2.jpg?fit=max&",
     },
   ];
-
-  const ImageSlide = () => {
-    const array = [];
-
-    imgData.map((val) => {
-      return (
-        <motion.div
-          className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-          whileHover={{ transform: "translateY(-20%)" }}
-          transition={{ stiffness: 400, damping: 10 }}
-          variants={letterVariant}
-        >
-          <img
-            src={val.src}
-            decoding="async"
-            loading="lazy"
-            draggable="false"
-            className="is-loaded"
-            alt=""
-          />
-        </motion.div>
-      );
-    });
-  };
 
   return (
     <>
@@ -181,41 +145,13 @@ export const Lab = () => {
         whileinView="hidden"
         initial="visible"
         transition={{ delay: 1 }}
-        // style={{
-        //   opacity: isInViewBg ? 0 : 1,
-        //   //   transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
-        //   visibility: isInViewBg ? "hidden" : "visible",
-        // }}
       ></motion.div>
-      <motion.div
-        // ref={refBg}
-        className="fixed inset-0 flex flex-col justify-between bg-black text-white pt-100 overflow-hidden"
-        // whileInView="visible"
-        // initial="hidden"
-        // variants={containerVariant}
-        // style={{
-        //   opacity: isInViewText ? 1 : 0,
-        //   visibility: isInViewText ? "inherit" : "hidden",
-        //   //   translate: "none",
-        //   //   rotate: "none",
-        //   //   scale: "none",
-        //   //   transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) .5s",
-        //   //   transform: isInViewText ? "none" : "translateY(100%)",
-        // }}
-      >
+      <motion.div className="fixed inset-0 flex flex-col justify-between bg-black text-white pt-100 overflow-hidden">
         <div className="site-max flex justify-center">
           <h1
-            // translate={{
-            //   translateY: "100%",
-            // }}
             ref={refText}
             className="origin-bottom text-[16.75vw] s:text-[17.25vw] leading-none font-3 italic font-normal uppercase whitespace-nowrap"
             style={{
-              //   opacity: isInViewText ? 1 : 0,
-              //   visibility: "hidden",
-              //   translate: "none",
-              //   rotate: "none",
-              //   scale: "none",
               transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 1.5s",
               transform: isInViewText ? "none" : "translateY(50%)",
             }}
@@ -244,7 +180,7 @@ export const Lab = () => {
             {imgData.map((val, idx) => {
               return (
                 <motion.div
-                  //   ref={refImg}
+                  onClick={() => setDetailImage({ visible: true, idx })}
                   data-columns={idx}
                   className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
                   whileHover={{
@@ -257,287 +193,69 @@ export const Lab = () => {
                       : "translateY(120%)",
                   }}
                 >
-                  <Link to={`/lab/${idx}`}>
-                    <img
-                      src={val.src}
-                      decoding="async"
-                      loading="lazy"
-                      draggable="false"
-                      className="is-loaded"
-                      alt=""
-                    />
-                  </Link>
+                  <img
+                    src={`${val.src}h=300&w=200`}
+                    decoding="async"
+                    loading="lazy"
+                    draggable="false"
+                    className={`is-loaded ${
+                      detailImage.idx === idx ? "hidden" : ""
+                    }`}
+                    alt=""
+                  />
                 </motion.div>
               );
             })}
           </ScrollMenu>
-          {/* <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div>
-            <motion.div
-              className="cursor-pointer slide min-w-[80px] mr-[2.4rem]"
-              whileHover={{ transform: "translateY(-20%)" }}
-              transition={{ stiffness: 400, damping: 10 }}
-            >
-              <img
-                src="https://www.datocms-assets.com/92457/1680017080-ofs_homecollection.png?fit=max&h=300&w=200"
-                decoding="async"
-                loading="lazy"
-                draggable="false"
-                className="is-loaded"
-                alt=""
-              />
-            </motion.div> */}
-          {/* </ScrollMenu> */}
+
+          <AnimatePresence>
+            {detailImage.visible && (
+              <Link to={`/lab/${detailImage.idx}`}>
+                <motion.div
+                  initial={{ opacity: 0, translateY: "100%" }}
+                  animate={{ opacity: 1, translateY: "0%" }}
+                  exit={{ opacity: 0, translateY: "100%" }}
+                  transition={{ duraition: 2 }}
+                  onClick={() => setDetailImage({ visible: false, idx: null })}
+                  data-v-4f271d4e=""
+                  className="cursor-pointer fixed inset-0 pointer-events-none flex items-center justify-center z-10"
+                >
+                  <div
+                    data-v-4f271d4e=""
+                    className="relative max-s:w-full max-s:max-w-[100%] max-s:max-h-[100%] s:absolute s:inset-y-100 s:left-1/2 -translate-x-1/2 z-2 pointer-events-auto"
+                    style={{ "aspect-ratio": "0.8 / 1" }}
+                  >
+                    <div
+                      data-v-4f271d4e=""
+                      className="absolute media-fill inset-0 js-flip-el"
+                      data-flip-id="auto-4"
+                    >
+                      <figure
+                        data-v-68042254=""
+                        data-v-4f271d4e=""
+                        className="relative media-fill !absolute inset-0 z-1"
+                      >
+                        <img
+                          data-v-68042254=""
+                          src={`${imgData[detailImage.idx].src}h=300&w=200`}
+                          decoding="async"
+                          loading="lazy"
+                          draggable="false"
+                          className="is-loaded"
+                          alt=""
+                        />
+                      </figure>
+                      <img
+                        src={`${imgData[detailImage.idx].src}h=3000&w=2000`}
+                        style={{ zIndex: 5 }}
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
+            )}
+          </AnimatePresence>
 
           <div className="hidden col-span-1 col-span-2 col-span-3 col-span-4 col-span-5 col-span-6 col-span-7 col-span-8 col-span-9 col-span-10 col-span-11 col-span-12 col-start-1 col-start-2 col-start-3 col-start-4 col-start-5 col-start-6 col-start-7 col-start-8 col-start-9 col-start-10 col-start-11 col-start-12 s:col-span-1 s:col-span-2 s:col-span-3 s:col-span-4 s:col-span-5 s:col-span-6 s:col-span-7 s:col-span-8 s:col-span-9 s:col-span-10 s:col-span-11 s:col-span-12 s:col-start-1 s:col-start-2 s:col-start-3 s:col-start-4 s:col-start-5 s:col-start-6 s:col-start-7 s:col-start-8 s:col-start-9 s:col-start-10 s:col-start-11 s:col-start-12"></div>
           <form className="hidden invisible" method="POST" name="contact">
@@ -557,10 +275,6 @@ export const Lab = () => {
         <div
           style={{
             opacity: isInViewText ? 1 : 0,
-            //   visibility: "hidden",
-            //   translate: "none",
-            //   rotate: "none",
-            //   scale: "none",
             transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 1.5s",
             transform: isInViewText ? "none" : "translateY(100%)",
           }}
@@ -599,17 +313,6 @@ export const Lab = () => {
         </div>
       </motion.div>
       <motion.div
-        // ref={refBg}
-        // className="fixed inset-0 flex flex-col justify-between bg-black text-white pt-100 overflow-hidden"
-        // style={{
-        //   opacity: isInViewBg ? 1 : 0,
-        //   visibility: isInViewBg ? "visible" : "hidden",
-        //   //   translate: "none",
-        //   //   rotate: "none",
-        //   //   scale: "none",
-        //   transition: "all 0.4s cubic-bezier(0.66, -0.31, 0.58, 1) 1s",
-        //   transform: isInViewBg ? "none" : "translateY(100%)",
-        // }}
         animate={{
           opacity: [1, 1, 1],
           visibility: ["visible", "visible", "visible"],
@@ -617,6 +320,7 @@ export const Lab = () => {
           transitionEnd: {
             visibility: "hidden",
             opacity: 0,
+            display: "none",
           },
         }}
         transition={{
@@ -627,36 +331,17 @@ export const Lab = () => {
         className="w-full fixed inset-0 flex items-center justify-center bg-black text-white z-[999] js-t-dark-mask"
       >
         <motion.div
-          //   animate={{ translateY: ["0%", "-100%"] }}
-          //   animate={{
-          //     translateY: ["100%", "0%", "0%", "-100%"],
-          //     opacity: [1, 1, 1, 1],
-          //     visibility: ["visible", "visible", "visible", "visible"],
-          //     //   transitionEnd: {
-          //     //     visibility: "hidden",
-          //     //   },
-          //   }}
-          //   transition={{
-          //     duration: 3,
-          //     ease: "easeInOut",
-          //     times: [0, 0.3, 0.7, 1],
-          //   }}
           whileInView="visible"
           initial="hidden"
           variants={containerVariant}
           className="w-full animate text-[17.25vw] leading-none font-3 uppercase whitespace-nowrap overflow-hidden js-t-lab-text"
         >
-          <motion.div
-            className="inline-flex w-full justify-center"
-            // animate={{ translateY: "-100%" }}
-            // transition={{ delay: 1.5, duration: 3, opa }}
-          >
+          <motion.div className="inline-flex w-full justify-center">
             {Array.from(text).map((letter, index) => {
               return (
                 <motion.span
                   key={index}
                   className="js-lab-l"
-                  //   style={{ transform: "translate3d(0,100%,0)" }}
                   variants={letterVariant}
                 >
                   {letter === " " ? "\u00A0" : letter}
